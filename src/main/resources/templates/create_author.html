@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/base}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Author</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <form id="authorForm" th:action="@{/author/create}" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" class="border" name="name">
+            <br>
+            <span class="error" th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
+            <br>
+            <div class="flex justify-end"><button class="bg-sky-500 border " type="submit">Create</button></div>
+        </form>
+    </div>
+
+</body>
+</html>

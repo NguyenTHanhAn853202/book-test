@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/base}"
+>
+<head>
+  <title>Authors List</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <table class="1/2 border border-gray-300 text-center">
+            <thead class="bg-gray-200">
+            <tr>
+                <th class="border p-2">No</th>
+                <th class="border p-2">Name</th>
+                <th class="border p-2">Books</th>
+                <th class="border p-2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="author, iterStat : ${authors}" th:attr="data-id=${author.id}" class="border">
+                <td class="border p-2" th:text="${iterStat.count}"></td>
+                <td class="border p-2" th:text="${author.name}"></td>
+                <td class="border p-2" th:text="${author.book_quantity}"></td>
+                <td class="border p-2 bg-yellow-300 flex justify-center space-x-2">
+                    <button class="edit-author px-2 py-1 rounded">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button id="rm-author"  class="px-2 py-1 rounded rm-author">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="flex justify-end mt-4" th:if="${totalPages > 1}">
+            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+               th:href="@{/reviews(page=${i})}"
+               th:text="${i}"
+               class="px-3 py-1 mx-1 border rounded bg-gray-200 hover:bg-gray-300">
+            </a>
+        </div>
+
+        <!-- Form cập nhật (ẩn mặc định) -->
+        <div id="update-form" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Cập nhật tên tác giả</h2>
+                <input type="hidden" id="authorId">
+                <label class="block">Tên mới:</label>
+                <input type="text" id="authorName" class="border p-2 w-full">
+                <div class="mt-4 flex justify-end space-x-2">
+                    <button id="cancel-update" class="bg-gray-400 px-4 py-2 rounded">Hủy</button>
+                    <button id="save-update" class="bg-blue-500 text-white px-4 py-2 rounded">Lưu</button>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            $(document).ready(function () {
+              $(".rm-author").click(function (event) {
+                event.preventDefault();
+
+                let authorRow = $(this).closest("tr");
+                let authorId = authorRow.attr("data-id");
+
+                if (confirm("Bạn có chắc chắn muốn xóa tác giả này không?")) {
+                  $.ajax({
+                    url: "/author/delete",
+                    type: "POST",
+                    data: { id: authorId },
+                    success: function (response) {
+                      alert("Tác giả đã bị xóa thành công!");
+                      authorRow.remove(); // Xóa dòng khỏi bảng
+                    },
+                    error: function () {
+                      alert("Xóa thất bại, vui lòng thử lại!");
+                    },
+                  });
+                }
+              });
+            });
+            $(".edit-author").click(function () {
+      let authorRow = $(this).closest("tr");
+      let authorId = authorRow.attr("data-id");
+      let authorName = authorRow.find("td:eq(1)").text();
+
+      $("#authorId").val(authorId);
+      $("#authorName").val(authorName);
+      $("#update-form").removeClass("hidden");
+    });
+
+
+    $("#cancel-update").click(function () {
+      $("#update-form").addClass("hidden");
+    });
+
+    $("#save-update").click(function () {
+      let authorId = $("#authorId").val();
+      let authorName = $("#authorName").val();
+
+      $.ajax({
+        url: "/author/update-name",
+        type: "POST",
+        data: { id: authorId, name: authorName },
+        success: function (response) {
+          alert("Cập nhật thành công!");
+          location.reload();
+        },
+        error: function () {
+          alert("Cập nhật thất bại, vui lòng thử lại!");
+        },
+      });
+    });
+        </script>
+    </div>
+
+
+</body>
+</html>

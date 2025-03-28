@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Authors List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</head>
+<body>
+<header class="bg-black p-6">
+  <h1 class=" text-white">HAIBAZO BOOK TEST</h1>
+</header>
+<h2 class="bg-sky-500" th:text="${currentPage}"></h2>
+<div class="flex">
+  <div>
+    <ul class="space-y-5 bg-gray-300 h-[100vh] px-20">
+      <li x-data="{ open: false }">
+        <div class="flex items-center space-x-2 cursor-pointer" @click="open = !open">
+          <div class="w-4 h-4">
+            <i class="fa-solid fa-person"></i>
+          </div>
+          <span class="hover:underline">Authors</span>
+          <span x-text="open ? '▲' : '▼'"></span>
+        </div>
+        <ul x-show="open" class="ml-6 mt-2 space-y-1">
+          <li class="text-gray-400"><a href="/author">List</a></li>
+          <li class="text-gray-400"><a href="/author/create">Create</a></li>
+        </ul>
+      </li>
+
+      <!-- Books -->
+      <li x-data="{ open: false }">
+        <div class="flex items-center space-x-2 cursor-pointer" @click="open = !open">
+          <div class="w-4 h-4"><i class="fa-solid fa-book"></i></div>
+          <span class="hover:underline">Books</span>
+          <span x-text="open ? '▲' : '▼'"></span>
+        </div>
+        <ul x-show="open" class="ml-6 mt-2 space-y-1">
+          <li class="text-gray-400"><a href="/books">List</a></li>
+          <li class="text-gray-400"><a href="/books/create">Create</a></li>
+        </ul>
+      </li>
+
+      <!-- Reviews -->
+      <li x-data="{ open: false }">
+        <div class="flex items-center space-x-2 cursor-pointer" @click="open = !open">
+          <div class="w-4 h-4 "><i class="fa-solid fa-magnifying-glass"></i></div>
+          <span class="hover:underline">Reviews</span>
+          <span x-text="open ? '▲' : '▼'"></span>
+        </div>
+        <ul x-show="open" class="ml-6 mt-2 space-y-1">
+          <li class="text-gray-400"><a href="/reviews">List</a></li>
+          <li class="text-gray-400"><a href="/reviews/create">Create</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <section class="ml-20 mt-10">
+    <div layout:fragment="content"></div>
+  </section>
+</div>
+</body>
+</html>

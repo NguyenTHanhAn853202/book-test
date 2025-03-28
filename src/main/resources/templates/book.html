@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/base}"
+>
+<head>
+    <title>Book List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>Book List</h2>
+    <table class="border">
+        <thead>
+        <tr class="border">
+            <th class="border">No</th>
+            <th class="border">Title</th>
+            <th class="border">Author</th>
+            <th class="border">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="border" th:each="book, iterStat : ${books}">
+            <td class="border" th:text="${iterStat.count}"></td>
+            <td class="border" th:text="${book.name}"></td>
+            <td class="border" th:text="${book.author.name}"></td>
+            <td class="border">
+                <button onclick="editBook(this)" th:data-id="${book.id}" th:data-name="${book.name}">  <i class="fa-solid fa-pen"></i></button>
+                <button onclick="confirmDelete(this)" th:data-id="${book.id}"><i class="fa-solid fa-trash"></i></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="flex justify-end">
+        <div>
+            <button class="border p-3" th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                    th:onclick="|window.location.href='/books?page=${i}'|"
+                    th:text="${i + 1}">
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function editBook(button) {
+            const bookId = button.getAttribute("data-id");
+            const bookName = button.getAttribute("data-name");
+
+            Swal.fire({
+                title: "Edit Book",
+                input: "text",
+                inputValue: bookName,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                preConfirm: (newName) => {
+                    $.post("/books/update", { id: bookId, name: newName }, function () {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
+        function confirmDelete(button) {
+            const bookId = button.getAttribute("data-id");
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post("/books/delete", { id: bookId }, function () {
+                        location.reload();
+                    });
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

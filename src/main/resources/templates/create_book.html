@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/base}"
+>
+<head>
+  <title>Create Book</title>
+
+</head>
+<body>
+<h2>Create Book</h2>
+<div layout:fragment="content">
+  <form th:action="@{/books/save}" method="post" th:object="${book}">
+    <label>Title:</label>
+    <input class="border" type="text" th:field="*{name}" />
+    <span class="text-red-500 block" th:if="${errorName}" th:text="${errorName}"></span>
+    <br>
+
+    <label>Author:</label>
+    <select th:field="*{author}">
+      <option value="">Select an author</option>
+      <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
+    </select>
+    <span class="text-red-500 block" th:if="${errorAuthor}" th:text="${errorAuthor}"></span>
+    <br>
+
+    <button type="submit">Create</button>
+  </form>
+</div>
+</body>
+</html>
