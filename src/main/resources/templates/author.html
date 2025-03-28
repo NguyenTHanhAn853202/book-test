@@ -35,7 +35,7 @@
 
         <div class="flex justify-end mt-4" th:if="${totalPages > 1}">
             <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-               th:href="@{/books(page=${i})}"
+               th:href="@{/author(page=${i})}"
                th:text="${i}"
                class="px-3 py-1 mx-1 border rounded bg-gray-200 hover:bg-gray-300">
             </a>
