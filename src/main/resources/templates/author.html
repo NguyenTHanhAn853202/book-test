@@ -33,13 +33,14 @@
             </tbody>
         </table>
 
-        <div class="flex justify-end mt-4" th:if="${totalPages > 1}">
-            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-               th:href="@{/author(page=${i})}"
-               th:text="${i}"
-               class="px-3 py-1 mx-1 border rounded bg-gray-200 hover:bg-gray-300">
-            </a>
-        </div>
+        <div class="flex justify-end">
+          <div>
+              <button class="border p-3" th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                      th:onclick="|window.location.href='/author?page=${i}'|"
+                      th:text="${i + 1}">
+              </button>
+          </div>
+      </div>
 
         <!-- Form cập nhật (ẩn mặc định) -->
         <div id="update-form" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
