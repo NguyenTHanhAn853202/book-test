@@ -27,7 +27,7 @@
             <tr th:each="review, iterStat : ${reviews}">
                 <td class="border px-4 py-2" th:text="${iterStat.index + 1}"></td>
                 <td class="border px-4 py-2" th:text="${review.book.name}"></td>
-                <td class="border px-4 py-2" th:text="${review.book.author}"></td>
+                <td class="border px-4 py-2" th:text="${review.book.author.name}"></td>
                 <td class="border px-4 py-2" th:text="${review.context}"></td>
                 <td class="border px-4 py-2 flex space-x-2">
                     <button class="bg-blue-500 text-white px-2 py-1 rounded"
