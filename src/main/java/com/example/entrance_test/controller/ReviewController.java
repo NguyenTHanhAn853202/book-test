@@ -27,7 +27,7 @@ public class ReviewController {
     public String showCreateReviewForm(Model model) {
         model.addAttribute("review", new Review());
         model.addAttribute("books", bookService.getAllBooks());
-        model.addAttribute("currentPage","Review > Create");
+        model.addAttribute("breadcrumb","Review > Create");
         return "create_review";
     }
 
@@ -51,7 +51,7 @@ public class ReviewController {
 
         if (hasErrors) {
             model.addAttribute("books", bookService.getAllBooks());
-            model.addAttribute("currentPage","Review > Create");
+            model.addAttribute("breadcrumb","Review > Create");
 
             return "create_review";
         }
@@ -66,7 +66,7 @@ public class ReviewController {
         Page<Review> reviewPage = reviewService.getReviewsPaginated(page, pageSize);
         model.addAttribute("reviews", reviewPage.getContent());
         model.addAttribute("totalPages", reviewPage.getTotalPages());
-        model.addAttribute("currentPage","Review > List");
+        model.addAttribute("breadcrumb","Review > List");
 
         return "review";
     }

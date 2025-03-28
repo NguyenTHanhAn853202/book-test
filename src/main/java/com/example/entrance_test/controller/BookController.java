@@ -29,7 +29,7 @@ public class BookController {
         model.addAttribute("books", bookPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", bookPage.getTotalPages());
-        model.addAttribute("currentPage","Book > List");
+        model.addAttribute("breadcrumb","Book > List");
 
         return "book";
     }
@@ -53,7 +53,7 @@ public class BookController {
     public String showCreateBookForm(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("authors", authorService.getAllAuthors());
-        model.addAttribute("currentPage","Book > Create");
+        model.addAttribute("breadcrumb","Book > Create");
 
         return "create_book";
     }
@@ -68,7 +68,7 @@ public class BookController {
                 model.addAttribute("errorAuthor", "Author is required.");
             }
             model.addAttribute("authors", authorService.getAllAuthors());
-            model.addAttribute("currentPage","Book > Create");
+            model.addAttribute("breadcrumb","Book > Create");
             return "create_book";
         }
 

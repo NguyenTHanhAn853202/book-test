@@ -60,7 +60,7 @@ public class AuthorController {
 
     @GetMapping("/create")
     public String create(Model model){
-        model.addAttribute("currentPage","Author > create");
+        model.addAttribute("breadcrumb","Author > create");
         return "create_author";
     }
 
@@ -69,7 +69,7 @@ public class AuthorController {
         Page<Author> authors = authorService.getAuthorsWithPagination(page, 5);
         model.addAttribute("authors", authors);
         model.addAttribute("currentPage", page);
-        model.addAttribute("currentPage","Author > List");
+        model.addAttribute("breadcrumb","Author > List");
 
         model.addAttribute("totalPages", authors.getTotalPages());
         return "author";
