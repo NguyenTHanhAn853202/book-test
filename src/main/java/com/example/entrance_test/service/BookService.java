@@ -28,10 +28,24 @@ public class BookService {
     }
 
     public Book saveBook(Book book) {
+        authorRepository.findById(book.getAuthor().getId()).ifPresent(author -> {
+            author.setBook_quantity(author.getBook_quantity() + 1);
+            authorRepository.save(author);
+        });
         return bookRepository.save(book);
     }
 
     public void deleteBook(Long id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        Book book = optionalBook.get();
+
+        authorRepository.findById(book.getAuthor().getId()).ifPresent(author -> {
+            if (author.getBook_quantity() > 0) {
+                author.setBook_quantity(author.getBook_quantity() - 1);
+                authorRepository.save(author);
+            }
+        });
+
         bookRepository.deleteById(id);
     }
 
