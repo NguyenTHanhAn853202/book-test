@@ -17,7 +17,7 @@ public class ReviewService {
     private ReviewRepository reviewRepository;
 
     public Page<Review> getReviewsPaginated(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page, size);
         return reviewRepository.findAll(pageable);
     }
 
